@@ -1,0 +1,71 @@
+﻿@model IEnumerable<ASimmo.Models.Classification>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Libelle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Recherchable)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PrixMax)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PrixMin)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Parent)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Promoteur)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Libelle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Recherchable)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PrixMax)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PrixMin)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Type.TypeClassificationId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Parent.ClassificationId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Promoteur.PromoteurId)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ClassificationId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ClassificationId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ClassificationId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

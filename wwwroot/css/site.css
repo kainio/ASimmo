@@ -54,3 +54,54 @@ body {
   height: 60px;
   line-height: 60px; /* Vertically center the text there */
 }
+
+.navbar {
+
+}
+.Hero {
+    margin:0;
+    margin-top: 60px;
+    margin-bottom:30px;
+}
+.Hero h1 {
+    font-size: 58px;
+    font-weight: bold;
+    color: #1E0E62;
+    line-height: 1.1;
+    width: 471px;
+}
+
+.Hero p {
+    font-size: 18px;
+    font-weight: normal;
+    color: #151439;
+    opacity: .40;
+    width: 421px;
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: #1E0E62;
+}
+
+.navbar-nav .nav-link-inscription, .call-to-action {
+    color: #fff;
+    background: #482BE7;
+    display: inline-block;
+    border-radius: 100px;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.call-to-action{
+    margin-top: 30px;
+    padding: 6px 12px;
+}
+.navbar-nav .nav-link-inscription:hover, .call-to-action:hover {
+    color: #fff;
+    text-decoration: none;
+}
+
+#copy {
+    margin: 0;
+    margin-top: 1rem;
+}
