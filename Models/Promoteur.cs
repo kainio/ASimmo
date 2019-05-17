@@ -10,7 +10,7 @@ namespace ASimmo.Models
     {
 
         public int PromoteurId { get; set; }
-
+        public string Image { get; set; }
         public string UserId { get; set; }
         public int TypeId {get; set;}
         public virtual IdentityUser User { get; set; }

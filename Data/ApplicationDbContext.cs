@@ -12,6 +12,7 @@ namespace ASimmo.Data
             : base(options)
         {
         }
+       
 
         public DbSet<Adresse> Adresses { get; set; }
         public DbSet<Promoteur> Promoteurs { get; set; }

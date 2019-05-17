@@ -1,0 +1,53 @@
+﻿@model IEnumerable<ASimmo.Models.Adresse>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Quartier)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CodePostal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ville)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AdressePostale)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quartier)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CodePostal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ville)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AdressePostale)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.AdresseId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.AdresseId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.AdresseId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

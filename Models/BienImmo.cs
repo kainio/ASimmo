@@ -19,7 +19,7 @@ namespace ASimmo.Models
         public int TypeId { get; set; }
         public int ClassificationId { get; set; }
         public int AdresseId { get; set; }
-
+        public string Image { get; set; }
         public TypeBienImmo Type { get; set; }
 
         public Classification Classification { get; set; }

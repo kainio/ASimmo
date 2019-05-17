@@ -13,7 +13,7 @@ namespace ASimmo.Models
 
         public int TypeId { get; set; }
 
-        public int ParentId { get; set; }
+        public int? ParentId { get; set; }
 
         public int PromoteurId { get; set; }
 
@@ -22,6 +22,8 @@ namespace ASimmo.Models
         public Decimal PrixMax { get; set; }
         public Decimal PrixMin { get; set; }
 
+        public string Image { get; set; }
+       
         public virtual TypeClassification Type { get; set; }
 
         public virtual Classification Parent { get; set; }

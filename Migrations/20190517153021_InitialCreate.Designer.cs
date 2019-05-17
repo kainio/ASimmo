@@ -6,10 +6,10 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace ASimmo.Data.Migrations
+namespace ASimmo.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190513152553_InitialCreate")]
+    [Migration("20190517153021_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -45,6 +45,8 @@ namespace ASimmo.Data.Migrations
 
                     b.Property<int>("ClassificationId");
 
+                    b.Property<string>("Image");
+
                     b.Property<int>("NombreChambre");
 
                     b.Property<decimal>("Prix");
@@ -69,9 +71,11 @@ namespace ASimmo.Data.Migrations
                     b.Property<int>("ClassificationId")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("Image");
+
                     b.Property<string>("Libelle");
 
-                    b.Property<int>("ParentId");
+                    b.Property<int?>("ParentId");
 
                     b.Property<decimal>("PrixMax");
 
@@ -120,6 +124,8 @@ namespace ASimmo.Data.Migrations
                     b.Property<int>("PromoteurId")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("Image");
+
                     b.Property<int>("TypeId");
 
                     b.Property<string>("UserId");
@@ -152,11 +158,7 @@ namespace ASimmo.Data.Migrations
 
                     b.Property<string>("Libelle");
 
-                    b.Property<string>("UserId");
-
                     b.HasKey("TypeClassificationId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("TypesClassifications");
                 });
@@ -356,8 +358,7 @@ namespace ASimmo.Data.Migrations
                 {
                     b.HasOne("ASimmo.Models.Classification", "Parent")
                         .WithMany()
-                        .HasForeignKey("ParentId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ParentId");
 
                     b.HasOne("ASimmo.Models.Promoteur", "Promoteur")
                         .WithMany()
@@ -390,13 +391,6 @@ namespace ASimmo.Data.Migrations
                         .HasForeignKey("TypeId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("ASimmo.Models.TypeClassification", b =>
-                {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");

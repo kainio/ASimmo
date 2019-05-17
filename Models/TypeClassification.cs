@@ -12,9 +12,10 @@ namespace ASimmo.Models
 
         public string Libelle { get; set; }
 
-        public string UserId { get; set; }
 
-        public virtual IdentityUser User { get; set; }
+        //public string UserId { get; set; }
+
+        //public virtual IdentityUser User { get; set; }
 
     }
 }
