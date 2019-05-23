@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using ASimmo.Data;
 using ASimmo.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace ASimmo.Controllers
 {
@@ -23,8 +24,19 @@ namespace ASimmo.Controllers
         // GET: Classifications
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Classifications.Include(c => c.Parent).Include(c => c.Promoteur).Include(c => c.Type);
-            return View(await applicationDbContext.ToListAsync());
+            if (this.HttpContext.User.IsInRole("Admin"))
+            {
+                var applicationDbContext = _context.Classifications.Include(c => c.Parent).Include(c => c.Promoteur).Include(c => c.Type);
+                return View(await applicationDbContext.ToListAsync());
+            }
+            else if (this.HttpContext.User.IsInRole("Agent"))
+            {
+                var _userId = this.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                var applicationDbContext = _context.Classifications.Include(c => c.Promoteur).Include(c => c.Type).Where(p => p.Promoteur.UserId== _userId);
+                return View(await applicationDbContext.ToListAsync());
+            }
+
+            return new ForbidResult();
         }
 
         // GET: Classifications/Details/5
@@ -52,9 +64,21 @@ namespace ASimmo.Controllers
         [Authorize(Roles = "Admin, Agent")]
         public IActionResult Create()
         {
-            ViewData["ParentId"] = new SelectList(_context.Classifications, "ClassificationId", "ClassificationId");
-            ViewData["PromoteurId"] = new SelectList(_context.Promoteurs, "PromoteurId", "PromoteurId");
-            ViewData["TypeId"] = new SelectList(_context.TypesClassifications, "TypeClassificationId", "TypeClassificationId");
+            
+            ViewData["ParentId"] = new SelectList(_context.Classifications, "ClassificationId", "Libelle");
+
+            if (this.HttpContext.User.IsInRole("Admin"))
+            {
+                ViewData["PromoteurId"] = new SelectList(_context.Promoteurs, "PromoteurId", "Libelle");
+            }
+            else
+            {
+                var _userId = this.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                ViewData["PromoteurId"] = new SelectList(_context.Promoteurs.Where(p => p.UserId == _userId), "PromoteurId", "Libelle");
+            }
+                
+
+            ViewData["TypeId"] = new SelectList(_context.TypesClassifications, "TypeClassificationId", "Libelle");
             return View();
         }
 
@@ -66,15 +90,36 @@ namespace ASimmo.Controllers
         [Authorize(Roles = "Admin, Agent")]
         public async Task<IActionResult> Create([Bind("ClassificationId,Libelle,TypeId,ParentId,PromoteurId,Recherchable,PrixMax,PrixMin")] Classification classification)
         {
+            
             if (ModelState.IsValid)
             {
-                _context.Add(classification);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (this.HttpContext.User.IsInRole("Admin") || IsOwner(classification.PromoteurId))
+                {
+                    _context.Add(classification);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    return new ForbidResult();
+                }
             }
-            ViewData["ParentId"] = new SelectList(_context.Classifications, "ClassificationId", "ClassificationId", classification.ParentId);
-            ViewData["PromoteurId"] = new SelectList(_context.Promoteurs, "PromoteurId", "PromoteurId", classification.PromoteurId);
-            ViewData["TypeId"] = new SelectList(_context.TypesClassifications, "TypeClassificationId", "TypeClassificationId", classification.TypeId);
+
+
+            if (this.HttpContext.User.IsInRole("Admin"))
+            {
+                ViewData["PromoteurId"] = new SelectList(_context.Promoteurs, "PromoteurId", "Libelle");
+                ViewData["ParentId"] = new SelectList(_context.Classifications.Where(c => IsOwner(c.PromoteurId)), "ClassificationId", "Libelle", classification.ParentId);
+
+            }
+            else
+            {
+                ViewData["ParentId"] = new SelectList(_context.Classifications, "ClassificationId", "Libelle", classification.ParentId);
+                ViewData["PromoteurId"] = new SelectList(_context.Promoteurs.Where(p => IsOwner(p.PromoteurId)), "PromoteurId", "Libelle");
+            }
+
+            ViewData["TypeId"] = new SelectList(_context.TypesClassifications, "TypeClassificationId", "Libelle", classification.TypeId);
+
             return View(classification);
         }
 
@@ -174,6 +219,18 @@ namespace ASimmo.Controllers
         private bool ClassificationExists(int id)
         {
             return _context.Classifications.Any(e => e.ClassificationId == id);
+        }
+
+        private bool IsOwner(int id)
+        {
+            var _userId = this.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var promoteur = _context.Promoteurs.Include(p => p.User).FirstOrDefault(p=> p.PromoteurId == id);
+            if(promoteur.UserId == _userId) 
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }
