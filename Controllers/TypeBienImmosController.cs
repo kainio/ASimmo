@@ -12,23 +12,23 @@ using Microsoft.AspNetCore.Authorization;
 namespace ASimmo.Controllers
 {
     [Authorize(Roles = "Admin")]
-    public class TypeClassificationsController : Controller
+    public class TypeBienImmosController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public TypeClassificationsController(ApplicationDbContext context)
+        public TypeBienImmosController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: TypeClassifications
+        // GET: TypeBienImmoes
+        
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.TypesClassifications;
-            return View(await applicationDbContext.ToListAsync());
+            return View(await _context.TypesBiensImmos.ToListAsync());
         }
 
-        // GET: TypeClassifications/Details/5
+        // GET: TypeBienImmoes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -36,40 +36,40 @@ namespace ASimmo.Controllers
                 return NotFound();
             }
 
-            var typeClassification = await _context.TypesClassifications
-                .FirstOrDefaultAsync(m => m.TypeClassificationId == id);
-            if (typeClassification == null)
+            var typeBienImmo = await _context.TypesBiensImmos
+                .FirstOrDefaultAsync(m => m.TypeBienImmoId == id);
+            if (typeBienImmo == null)
             {
                 return NotFound();
             }
 
-            return View(typeClassification);
+            return View(typeBienImmo);
         }
 
-        // GET: TypeClassifications/Create
+        // GET: TypeBienImmoes/Create
         public IActionResult Create()
         {
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
             return View();
         }
 
-        // POST: TypeClassifications/Create
+        // POST: TypeBienImmoes/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("TypeClassificationId,Libelle,UserId")] TypeClassification typeClassification)
+        public async Task<IActionResult> Create([Bind("TypeBienImmoId,Libelle")] TypeBienImmo typeBienImmo)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(typeClassification);
+                _context.Add(typeBienImmo);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(typeClassification);
+            return View(typeBienImmo);
         }
 
-        // GET: TypeClassifications/Edit/5
+        // GET: TypeBienImmoes/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -77,22 +77,22 @@ namespace ASimmo.Controllers
                 return NotFound();
             }
 
-            var typeClassification = await _context.TypesClassifications.FindAsync(id);
-            if (typeClassification == null)
+            var typeBienImmo = await _context.TypesBiensImmos.FindAsync(id);
+            if (typeBienImmo == null)
             {
                 return NotFound();
             }
-            return View(typeClassification);
+            return View(typeBienImmo);
         }
 
-        // POST: TypeClassifications/Edit/5
+        // POST: TypeBienImmoes/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("TypeClassificationId,Libelle,UserId")] TypeClassification typeClassification)
+        public async Task<IActionResult> Edit(int id, [Bind("TypeBienImmoId,Libelle")] TypeBienImmo typeBienImmo)
         {
-            if (id != typeClassification.TypeClassificationId)
+            if (id != typeBienImmo.TypeBienImmoId)
             {
                 return NotFound();
             }
@@ -101,12 +101,12 @@ namespace ASimmo.Controllers
             {
                 try
                 {
-                    _context.Update(typeClassification);
+                    _context.Update(typeBienImmo);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TypeClassificationExists(typeClassification.TypeClassificationId))
+                    if (!TypeBienImmoExists(typeBienImmo.TypeBienImmoId))
                     {
                         return NotFound();
                     }
@@ -117,10 +117,10 @@ namespace ASimmo.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(typeClassification);
+            return View(typeBienImmo);
         }
 
-        // GET: TypeClassifications/Delete/5
+        // GET: TypeBienImmoes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -128,30 +128,30 @@ namespace ASimmo.Controllers
                 return NotFound();
             }
 
-            var typeClassification = await _context.TypesClassifications
-                .FirstOrDefaultAsync(m => m.TypeClassificationId == id);
-            if (typeClassification == null)
+            var typeBienImmo = await _context.TypesBiensImmos
+                .FirstOrDefaultAsync(m => m.TypeBienImmoId == id);
+            if (typeBienImmo == null)
             {
                 return NotFound();
             }
 
-            return View(typeClassification);
+            return View(typeBienImmo);
         }
 
-        // POST: TypeClassifications/Delete/5
+        // POST: TypeBienImmoes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var typeClassification = await _context.TypesClassifications.FindAsync(id);
-            _context.TypesClassifications.Remove(typeClassification);
+            var typeBienImmo = await _context.TypesBiensImmos.FindAsync(id);
+            _context.TypesBiensImmos.Remove(typeBienImmo);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool TypeClassificationExists(int id)
+        private bool TypeBienImmoExists(int id)
         {
-            return _context.TypesClassifications.Any(e => e.TypeClassificationId == id);
+            return _context.TypesBiensImmos.Any(e => e.TypeBienImmoId == id);
         }
     }
 }

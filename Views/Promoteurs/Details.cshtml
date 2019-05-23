@@ -10,21 +10,27 @@
     <h4>Promoteur</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Libelle)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Libelle)
+        </dd>
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.User)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.User.Id)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.User.UserName)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Type)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Type.TypePromoteurId)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Type.Libelle)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.PromoteurId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.PromoteurId">Editer</a> |
+    <a asp-action="Index">Returner à la liste de promoteurs</a>
 </div>

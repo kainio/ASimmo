@@ -8,8 +8,9 @@ namespace ASimmo.Models
 {
     public class Promoteur
     {
-
+        
         public int PromoteurId { get; set; }
+        public string Libelle { get; set; }
         public string Image { get; set; }
         public string UserId { get; set; }
         public int TypeId {get; set;}

@@ -1,17 +1,20 @@
 ﻿@model IEnumerable<ASimmo.Models.Promoteur>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Liste des promoteurs";
 }
 
-<h1>Index</h1>
+<h1>Liste des promoteurs</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Créer un nouveau promoteur</a>
 </p>
 <table class="table">
     <thead>
         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Libelle)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.User)
             </th>
@@ -25,15 +28,18 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.User.Id)
+                @Html.DisplayFor(modelItem => item.Libelle)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Type.TypePromoteurId)
+                @Html.DisplayFor(modelItem => item.User.UserName)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.PromoteurId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.PromoteurId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.PromoteurId">Delete</a>
+                @Html.DisplayFor(modelItem => item.Type.Libelle)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.PromoteurId">Editer</a> |
+                <a asp-action="Details" asp-route-id="@item.PromoteurId">Consulter</a> |
+                <a asp-action="Delete" asp-route-id="@item.PromoteurId">Supprimer</a>
             </td>
         </tr>
 }

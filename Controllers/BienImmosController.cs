@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ASimmo.Data;
 using ASimmo.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ASimmo.Controllers
 {
@@ -48,6 +49,7 @@ namespace ASimmo.Controllers
         }
 
         // GET: BienImmoes/Create
+        [Authorize(Roles = "Admin, Agent")]
         public IActionResult Create()
         {
             ViewData["AdresseId"] = new SelectList(_context.Adresses, "AdresseId", "AdresseId");
@@ -61,6 +63,7 @@ namespace ASimmo.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Agent")]
         public async Task<IActionResult> Create([Bind("BienImmoId,Prix,Surface,NombreChambre,TypeId,ClassificationId,AdresseId")] BienImmo bienImmo)
         {
             if (ModelState.IsValid)
@@ -76,6 +79,7 @@ namespace ASimmo.Controllers
         }
 
         // GET: BienImmoes/Edit/5
+        [Authorize(Roles = "Admin, Agent")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -99,6 +103,7 @@ namespace ASimmo.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Agent")]
         public async Task<IActionResult> Edit(int id, [Bind("BienImmoId,Prix,Surface,NombreChambre,TypeId,ClassificationId,AdresseId")] BienImmo bienImmo)
         {
             if (id != bienImmo.BienImmoId)
@@ -133,6 +138,7 @@ namespace ASimmo.Controllers
         }
 
         // GET: BienImmoes/Delete/5
+        [Authorize(Roles = "Admin, Agent")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -156,6 +162,7 @@ namespace ASimmo.Controllers
         // POST: BienImmoes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Agent")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var bienImmo = await _context.BiensImmos.FindAsync(id);

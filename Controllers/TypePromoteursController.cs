@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ASimmo.Data;
 using ASimmo.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ASimmo.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class TypePromoteursController : Controller
     {
         private readonly ApplicationDbContext _context;

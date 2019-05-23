@@ -10,22 +10,23 @@ using ASimmo.Models;
 
 namespace ASimmo.Controllers
 {
-    public class TypeBienImmoesController : Controller
+    public class LocauxController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public TypeBienImmoesController(ApplicationDbContext context)
+        public LocauxController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: TypeBienImmoes
+        // GET: Locaux
         public async Task<IActionResult> Index()
         {
-            return View(await _context.TypesBiensImmos.ToListAsync());
+            var applicationDbContext = _context.Locaux.Include(l => l.Adresse).Include(l => l.Promoteur);
+            return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: TypeBienImmoes/Details/5
+        // GET: Locaux/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +34,45 @@ namespace ASimmo.Controllers
                 return NotFound();
             }
 
-            var typeBienImmo = await _context.TypesBiensImmos
-                .FirstOrDefaultAsync(m => m.TypeBienImmoId == id);
-            if (typeBienImmo == null)
+            var local = await _context.Locaux
+                .Include(l => l.Adresse)
+                .Include(l => l.Promoteur)
+                .FirstOrDefaultAsync(m => m.LocalId == id);
+            if (local == null)
             {
                 return NotFound();
             }
 
-            return View(typeBienImmo);
+            return View(local);
         }
 
-        // GET: TypeBienImmoes/Create
+        // GET: Locaux/Create
         public IActionResult Create()
         {
+            ViewData["AdresseId"] = new SelectList(_context.Adresses, "AdresseId", "AdresseId");
+            ViewData["PromoteurId"] = new SelectList(_context.Promoteurs, "PromoteurId", "PromoteurId");
             return View();
         }
 
-        // POST: TypeBienImmoes/Create
+        // POST: Locaux/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("TypeBienImmoId,Libelle")] TypeBienImmo typeBienImmo)
+        public async Task<IActionResult> Create([Bind("LocalId,Type,PromoteurId,AdresseId")] Local local)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(typeBienImmo);
+                _context.Add(local);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(typeBienImmo);
+            ViewData["AdresseId"] = new SelectList(_context.Adresses, "AdresseId", "AdresseId", local.AdresseId);
+            ViewData["PromoteurId"] = new SelectList(_context.Promoteurs, "PromoteurId", "PromoteurId", local.PromoteurId);
+            return View(local);
         }
 
-        // GET: TypeBienImmoes/Edit/5
+        // GET: Locaux/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +80,24 @@ namespace ASimmo.Controllers
                 return NotFound();
             }
 
-            var typeBienImmo = await _context.TypesBiensImmos.FindAsync(id);
-            if (typeBienImmo == null)
+            var local = await _context.Locaux.FindAsync(id);
+            if (local == null)
             {
                 return NotFound();
             }
-            return View(typeBienImmo);
+            ViewData["AdresseId"] = new SelectList(_context.Adresses, "AdresseId", "AdresseId", local.AdresseId);
+            ViewData["PromoteurId"] = new SelectList(_context.Promoteurs, "PromoteurId", "PromoteurId", local.PromoteurId);
+            return View(local);
         }
 
-        // POST: TypeBienImmoes/Edit/5
+        // POST: Locaux/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("TypeBienImmoId,Libelle")] TypeBienImmo typeBienImmo)
+        public async Task<IActionResult> Edit(int id, [Bind("LocalId,Type,PromoteurId,AdresseId")] Local local)
         {
-            if (id != typeBienImmo.TypeBienImmoId)
+            if (id != local.LocalId)
             {
                 return NotFound();
             }
@@ -97,12 +106,12 @@ namespace ASimmo.Controllers
             {
                 try
                 {
-                    _context.Update(typeBienImmo);
+                    _context.Update(local);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TypeBienImmoExists(typeBienImmo.TypeBienImmoId))
+                    if (!LocalExists(local.LocalId))
                     {
                         return NotFound();
                     }
@@ -113,10 +122,12 @@ namespace ASimmo.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(typeBienImmo);
+            ViewData["AdresseId"] = new SelectList(_context.Adresses, "AdresseId", "AdresseId", local.AdresseId);
+            ViewData["PromoteurId"] = new SelectList(_context.Promoteurs, "PromoteurId", "PromoteurId", local.PromoteurId);
+            return View(local);
         }
 
-        // GET: TypeBienImmoes/Delete/5
+        // GET: Locaux/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,30 +135,32 @@ namespace ASimmo.Controllers
                 return NotFound();
             }
 
-            var typeBienImmo = await _context.TypesBiensImmos
-                .FirstOrDefaultAsync(m => m.TypeBienImmoId == id);
-            if (typeBienImmo == null)
+            var local = await _context.Locaux
+                .Include(l => l.Adresse)
+                .Include(l => l.Promoteur)
+                .FirstOrDefaultAsync(m => m.LocalId == id);
+            if (local == null)
             {
                 return NotFound();
             }
 
-            return View(typeBienImmo);
+            return View(local);
         }
 
-        // POST: TypeBienImmoes/Delete/5
+        // POST: Locaux/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var typeBienImmo = await _context.TypesBiensImmos.FindAsync(id);
-            _context.TypesBiensImmos.Remove(typeBienImmo);
+            var local = await _context.Locaux.FindAsync(id);
+            _context.Locaux.Remove(local);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool TypeBienImmoExists(int id)
+        private bool LocalExists(int id)
         {
-            return _context.TypesBiensImmos.Any(e => e.TypeBienImmoId == id);
+            return _context.Locaux.Any(e => e.LocalId == id);
         }
     }
 }

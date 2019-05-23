@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ASimmo.Data;
 using ASimmo.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ASimmo.Controllers
 {
@@ -44,6 +45,7 @@ namespace ASimmo.Controllers
         }
 
         // GET: Adresses/Create
+        [Authorize(Roles = "Admin, Agent")]
         public IActionResult Create()
         {
             return View();
@@ -54,6 +56,7 @@ namespace ASimmo.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Agent")]
         public async Task<IActionResult> Create([Bind("AdresseId,Quartier,CodePostal,Ville,AdressePostale")] Adresse adresse)
         {
             if (ModelState.IsValid)
@@ -66,6 +69,7 @@ namespace ASimmo.Controllers
         }
 
         // GET: Adresses/Edit/5
+        [Authorize(Roles = "Admin, Agent")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -86,6 +90,7 @@ namespace ASimmo.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Agent")]
         public async Task<IActionResult> Edit(int id, [Bind("AdresseId,Quartier,CodePostal,Ville,AdressePostale")] Adresse adresse)
         {
             if (id != adresse.AdresseId)
@@ -117,6 +122,7 @@ namespace ASimmo.Controllers
         }
 
         // GET: Adresses/Delete/5
+        [Authorize(Roles = "Admin, Agent")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -137,6 +143,7 @@ namespace ASimmo.Controllers
         // POST: Adresses/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Agent")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var adresse = await _context.Adresses.FindAsync(id);

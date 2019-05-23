@@ -1,10 +1,12 @@
 ﻿@model ASimmo.Models.Promoteur
+@using System.Security.Claims;
 
 @{
     ViewData["Title"] = "Edit";
+    var _uId = this.Context.User.FindFirst(ClaimTypes.NameIdentifier).Value;
 }
 
-<h1>Edit</h1>
+<h1>Editer</h1>
 
 <h4>Promoteur</h4>
 <hr />
@@ -14,24 +16,35 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="PromoteurId" />
             <div class="form-group">
-                <label asp-for="UserId" class="control-label"></label>
-                <select asp-for="UserId" class="form-control" asp-items="ViewBag.UserId"></select>
-                <span asp-validation-for="UserId" class="text-danger"></span>
+                <label asp-for="Libelle" class="control-label"></label>
+                <input type="text" asp-for="Libelle" class="form-control" />
             </div>
+
+            @if (this.Context.User.IsInRole("Admin"))
+            {
+                <div class="form-group">
+                    <label asp-for="User" class="control-label"></label>
+                    <select asp-for="UserId" class="form-control" asp-items="ViewBag.UserId"></select>
+                </div>
+            }
+            else
+            {
+                <input type="hidden" value="@_uId" asp-for="UserId" />
+            }
             <div class="form-group">
-                <label asp-for="TypeId" class="control-label"></label>
+                <label asp-for="Type" class="control-label"></label>
                 <select asp-for="TypeId" class="form-control" asp-items="ViewBag.TypeId"></select>
                 <span asp-validation-for="TypeId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Enregistrer" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Retourner à la liste des promoteurs</a>
 </div>
 
 @section Scripts {

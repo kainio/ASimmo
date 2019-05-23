@@ -1,10 +1,11 @@
 ﻿@model ASimmo.Models.Promoteur
-
+@using System.Security.Claims;
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Création d'un promoteur";
+    var _uId = this.Context.User.FindFirst(ClaimTypes.NameIdentifier).Value;
 }
 
-<h1>Create</h1>
+<h1>Créer</h1>
 
 <h4>Promoteur</h4>
 <hr />
@@ -13,22 +14,34 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="UserId" class="control-label"></label>
-                <select asp-for="UserId" class ="form-control" asp-items="ViewBag.UserId"></select>
+                <label asp-for="Libelle" class="control-label"></label>
+                <input type="text" asp-for="Libelle" class="form-control" />
+            </div>
+            @if (this.Context.User.IsInRole("Admin"))
+            {
+                <div class="form-group">
+                    <label asp-for="User" class="control-label"></label>
+                    <select asp-for="UserId" class="form-control" asp-items="ViewBag.UserId"></select>
+                </div>
+            }
+            else
+            {
+                <input type="hidden" value="@_uId" asp-for="UserId" />
+            }
+
+            <div class="form-group">
+                <label asp-for="Type" class="control-label"></label>
+                <select asp-for="TypeId" class="form-control" asp-items="ViewBag.TypeId"></select>
             </div>
             <div class="form-group">
-                <label asp-for="TypeId" class="control-label"></label>
-                <select asp-for="TypeId" class ="form-control" asp-items="ViewBag.TypeId"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Créer" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Retourner à la liste de promoteurs</a>
 </div>
 
 @section Scripts {

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ASimmo.Data;
 using ASimmo.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ASimmo.Controllers
 {
@@ -48,6 +49,7 @@ namespace ASimmo.Controllers
         }
 
         // GET: Classifications/Create
+        [Authorize(Roles = "Admin, Agent")]
         public IActionResult Create()
         {
             ViewData["ParentId"] = new SelectList(_context.Classifications, "ClassificationId", "ClassificationId");
@@ -61,6 +63,7 @@ namespace ASimmo.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Agent")]
         public async Task<IActionResult> Create([Bind("ClassificationId,Libelle,TypeId,ParentId,PromoteurId,Recherchable,PrixMax,PrixMin")] Classification classification)
         {
             if (ModelState.IsValid)
@@ -76,6 +79,7 @@ namespace ASimmo.Controllers
         }
 
         // GET: Classifications/Edit/5
+        [Authorize(Roles = "Admin, Agent")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -99,6 +103,7 @@ namespace ASimmo.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Agent")]
         public async Task<IActionResult> Edit(int id, [Bind("ClassificationId,Libelle,TypeId,ParentId,PromoteurId,Recherchable,PrixMax,PrixMin")] Classification classification)
         {
             if (id != classification.ClassificationId)
@@ -133,6 +138,7 @@ namespace ASimmo.Controllers
         }
 
         // GET: Classifications/Delete/5
+        [Authorize(Roles = "Admin, Agent")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -156,6 +162,7 @@ namespace ASimmo.Controllers
         // POST: Classifications/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Agent")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var classification = await _context.Classifications.FindAsync(id);

@@ -11,23 +11,29 @@
     <h4>Promoteur</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Libelle)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Libelle)
+        </dd>
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.User)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.User.Id)
-        </dd class>
-        <dt class = "col-sm-2">
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.User.UserName)
+        </dd>
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Type)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Type.TypePromoteurId)
-        </dd class>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Type.Libelle)
+        </dd>
     </dl>
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="PromoteurId" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Supprimer" class="btn btn-danger" /> |
+        <a asp-action="Index">Retourner à la liste des promoteurs</a>
     </form>
 </div>
