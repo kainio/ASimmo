@@ -1,0 +1,67 @@
+﻿@model IEnumerable<ASimmo.Models.BienImmo>
+
+@{
+	ViewData["Title"] = "Liste des biens immobiliers";
+}
+
+<h1>Liste des biens immobiliers</h1>
+
+<p>
+    <a asp-action="Create">Créer un nouveau bien immobilier</a>
+</p>
+<table class="table">
+    <thead>
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => model.Adresse)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Prix)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Surface)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.NombreChambre)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Type)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Classification)
+			</th>
+
+			<th></th>
+		</tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+		<tr>
+			<td>
+				@Html.DisplayFor(modelItem => item.Adresse.AdressePostale)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Prix)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Surface)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.NombreChambre)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Type.Libelle)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Classification.Libelle)
+			</td>
+
+			<td>
+				<a asp-action="Edit" asp-route-id="@item.BienImmoId">Editer</a> |
+				<a asp-action="Details" asp-route-id="@item.BienImmoId">Consulter</a> |
+				<a asp-action="Delete" asp-route-id="@item.BienImmoId">Supprimer</a>
+			</td>
+		</tr>
+}
+    </tbody>
+</table>

@@ -3,28 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ASimmo.Migrations
 {
-    public partial class initialCreate : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Adresses",
-                columns: table => new
-                {
-                    AdresseId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Quartier = table.Column<string>(nullable: true),
-                    CodePostal = table.Column<string>(nullable: true),
-                    Ville = table.Column<string>(nullable: true),
-                    AdressePostale = table.Column<string>(nullable: true),
-                    Lon = table.Column<float>(nullable: false),
-                    Lat = table.Column<float>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Adresses", x => x.AdresseId);
-                });
-
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -238,6 +220,31 @@ namespace ASimmo.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Adresses",
+                columns: table => new
+                {
+                    AdresseId = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Quartier = table.Column<string>(nullable: true),
+                    CodePostal = table.Column<string>(nullable: true),
+                    Ville = table.Column<string>(nullable: true),
+                    AdressePostale = table.Column<string>(nullable: true),
+                    Lon = table.Column<float>(nullable: false),
+                    Lat = table.Column<float>(nullable: false),
+                    PromoteurId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Adresses", x => x.AdresseId);
+                    table.ForeignKey(
+                        name: "FK_Adresses_Promoteurs_PromoteurId",
+                        column: x => x.PromoteurId,
+                        principalTable: "Promoteurs",
+                        principalColumn: "PromoteurId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Classifications",
                 columns: table => new
                 {
@@ -400,6 +407,11 @@ namespace ASimmo.Migrations
                 values: new object[] { 2, "Entreprise" });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Adresses_PromoteurId",
+                table: "Adresses",
+                column: "PromoteurId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
                 column: "RoleId");
@@ -523,10 +535,10 @@ namespace ASimmo.Migrations
                 name: "Adresses");
 
             migrationBuilder.DropTable(
-                name: "Promoteurs");
+                name: "TypesClassifications");
 
             migrationBuilder.DropTable(
-                name: "TypesClassifications");
+                name: "Promoteurs");
 
             migrationBuilder.DropTable(
                 name: "TypesPromoteurs");

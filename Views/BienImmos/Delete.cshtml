@@ -1,0 +1,58 @@
+﻿@model ASimmo.Models.BienImmo
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Suppression</h1>
+
+<h3>Êtes-vous sûre de vouloir supprimer ce bien immobilier?</h3>
+<div>
+    <h4>BienImmo</h4>
+    <hr />
+	<dl class="row">
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Adresse)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Adresse.AdressePostale)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Prix)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Prix)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Surface)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Surface)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.NombreChambre)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.NombreChambre)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Type)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Type.Libelle)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Classification)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Classification.Libelle)
+		</dd>
+
+	</dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="BienImmoId" />
+        <input type="submit" value="Supprimer" class="btn btn-danger" /> |
+		<a asp-action="Index">Editer un bien immobilier</a>
+    </form>
+</div>

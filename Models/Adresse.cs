@@ -16,5 +16,8 @@ namespace ASimmo.Models
         public string AdressePostale { get; set; }
         public float Lon { get; set; }
         public float Lat { get; set; }
+
+        public int PromoteurId { get; set; }
+        public virtual Promoteur Promoteur { get; set; }
     }
 }

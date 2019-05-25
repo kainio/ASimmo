@@ -1,0 +1,55 @@
+﻿@model ASimmo.Models.BienImmo
+
+@{
+    ViewData["Title"] = "Détails du bien immobilier";
+}
+
+<h1>Détails</h1>
+
+<div>
+    <h4>BienImmo</h4>
+    <hr />
+	<dl class="row">
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Adresse)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Adresse.AdressePostale)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Prix)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Prix)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Surface)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Surface)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.NombreChambre)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.NombreChambre)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Type)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Type.Libelle)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Classification)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Classification.Libelle)
+		</dd>
+
+	</dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.BienImmoId">Editer</a> |
+	<a asp-action="Index">Retourner à la liste des biens immobiliers</a>
+</div>

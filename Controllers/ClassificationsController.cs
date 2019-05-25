@@ -22,6 +22,7 @@ namespace ASimmo.Controllers
         }
 
         // GET: Classifications
+        [Authorize(Roles = "Admin, Agent")]
         public async Task<IActionResult> Index()
         {
             if (this.HttpContext.User.IsInRole("Admin"))
@@ -139,9 +140,9 @@ namespace ASimmo.Controllers
             }
             if (this.HttpContext.User.IsInRole("Admin") || IsOwner(classification.PromoteurId))
             {
-                ViewData["ParentId"] = new SelectList(_context.Classifications, "ClassificationId", "ClassificationId", classification.ParentId);
-                ViewData["PromoteurId"] = new SelectList(_context.Promoteurs, "PromoteurId", "PromoteurId", classification.PromoteurId);
-                ViewData["TypeId"] = new SelectList(_context.TypesClassifications, "TypeClassificationId", "TypeClassificationId", classification.TypeId);
+                ViewData["ParentId"] = new SelectList(_context.Classifications, "ClassificationId", "Libelle", classification.ParentId);
+                ViewData["PromoteurId"] = new SelectList(_context.Promoteurs, "PromoteurId", "Libelle", classification.PromoteurId);
+                ViewData["TypeId"] = new SelectList(_context.TypesClassifications, "TypeClassificationId", "Libelle", classification.TypeId);
                 return View(classification);
             }
             else
@@ -189,9 +190,9 @@ namespace ASimmo.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ParentId"] = new SelectList(_context.Classifications, "ClassificationId", "ClassificationId", classification.ParentId);
-            ViewData["PromoteurId"] = new SelectList(_context.Promoteurs, "PromoteurId", "PromoteurId", classification.PromoteurId);
-            ViewData["TypeId"] = new SelectList(_context.TypesClassifications, "TypeClassificationId", "TypeClassificationId", classification.TypeId);
+            ViewData["ParentId"] = new SelectList(_context.Classifications, "ClassificationId", "Libelle", classification.ParentId);
+            ViewData["PromoteurId"] = new SelectList(_context.Promoteurs, "PromoteurId", "Libelle", classification.PromoteurId);
+            ViewData["TypeId"] = new SelectList(_context.TypesClassifications, "TypeClassificationId", "Libelle", classification.TypeId);
             return View(classification);
         }
 

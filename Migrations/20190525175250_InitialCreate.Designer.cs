@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ASimmo.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190525162855_initialCreate")]
-    partial class initialCreate
+    [Migration("20190525175250_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,11 +31,15 @@ namespace ASimmo.Migrations
 
                     b.Property<float>("Lon");
 
+                    b.Property<int>("PromoteurId");
+
                     b.Property<string>("Quartier");
 
                     b.Property<string>("Ville");
 
                     b.HasKey("AdresseId");
+
+                    b.HasIndex("PromoteurId");
 
                     b.ToTable("Adresses");
                 });
@@ -407,6 +411,14 @@ namespace ASimmo.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("ASimmo.Models.Adresse", b =>
+                {
+                    b.HasOne("ASimmo.Models.Promoteur", "Promoteur")
+                        .WithMany()
+                        .HasForeignKey("PromoteurId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("ASimmo.Models.BienImmo", b =>

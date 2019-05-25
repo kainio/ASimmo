@@ -1,18 +1,16 @@
 ﻿@model ASimmo.Models.BienImmo
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Ajouter un nouveau bien immobilie";
 }
 
-<h1>Edit</h1>
+<h1>Ajouter un nouveau bien immobilier</h1>
 
-<h4>BienImmo</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="BienImmoId" />
             <div class="form-group">
                 <label asp-for="Prix" class="control-label"></label>
                 <input asp-for="Prix" class="form-control" />
@@ -29,29 +27,28 @@
                 <span asp-validation-for="NombreChambre" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="TypeId" class="control-label"></label>
-                <select asp-for="TypeId" class="form-control" asp-items="ViewBag.TypeId"></select>
-                <span asp-validation-for="TypeId" class="text-danger"></span>
+                <label asp-for="Type" class="control-label"></label>
+                <select asp-for="TypeId" class ="form-control" asp-items="ViewBag.TypeId"></select>
             </div>
+			<div class="form-group">
+				<label asp-for="Classification" class="control-label"></label>
+				<select asp-for="ClassificationId" class="form-control" asp-items="ViewBag.ClassificationId"></select>
+				<a asp-controller="classifications" asp-action="Create">Créer une nouvelle classification</a>
+			</div>
+			<div class="form-group">
+				<label asp-for="Adresse" class="control-label"></label>
+				<select asp-for="AdresseId" class="form-control" asp-items="ViewBag.AdresseId"></select>
+				<a asp-controller="adresses" asp-action="Create">Créer une nouvelle adresse</a>
+			</div>
             <div class="form-group">
-                <label asp-for="ClassificationId" class="control-label"></label>
-                <select asp-for="ClassificationId" class="form-control" asp-items="ViewBag.ClassificationId"></select>
-                <span asp-validation-for="ClassificationId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="AdresseId" class="control-label"></label>
-                <select asp-for="AdresseId" class="form-control" asp-items="ViewBag.AdresseId"></select>
-                <span asp-validation-for="AdresseId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Ajouter" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Retourner à la liste des biens immobiliers</a>
 </div>
 
 @section Scripts {
