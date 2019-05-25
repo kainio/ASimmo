@@ -137,10 +137,17 @@ namespace ASimmo.Controllers
             {
                 return NotFound();
             }
-            ViewData["ParentId"] = new SelectList(_context.Classifications, "ClassificationId", "ClassificationId", classification.ParentId);
-            ViewData["PromoteurId"] = new SelectList(_context.Promoteurs, "PromoteurId", "PromoteurId", classification.PromoteurId);
-            ViewData["TypeId"] = new SelectList(_context.TypesClassifications, "TypeClassificationId", "TypeClassificationId", classification.TypeId);
-            return View(classification);
+            if (this.HttpContext.User.IsInRole("Admin") || IsOwner(classification.PromoteurId))
+            {
+                ViewData["ParentId"] = new SelectList(_context.Classifications, "ClassificationId", "ClassificationId", classification.ParentId);
+                ViewData["PromoteurId"] = new SelectList(_context.Promoteurs, "PromoteurId", "PromoteurId", classification.PromoteurId);
+                ViewData["TypeId"] = new SelectList(_context.TypesClassifications, "TypeClassificationId", "TypeClassificationId", classification.TypeId);
+                return View(classification);
+            }
+            else
+            {
+                return new ForbidResult();
+            }
         }
 
         // POST: Classifications/Edit/5
@@ -160,8 +167,14 @@ namespace ASimmo.Controllers
             {
                 try
                 {
-                    _context.Update(classification);
-                    await _context.SaveChangesAsync();
+                    if (this.HttpContext.User.IsInRole("Admin") || IsOwner(classification.PromoteurId))
+                    {
+                        _context.Update(classification);
+                        await _context.SaveChangesAsync();
+                    } else
+                    {
+                        return new ForbidResult();
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -200,8 +213,15 @@ namespace ASimmo.Controllers
             {
                 return NotFound();
             }
+            if (this.HttpContext.User.IsInRole("Admin") || IsOwner(classification.PromoteurId))
+            {
+                return View(classification);
+            }
+            else
+            {
+                return new ForbidResult();
+            }
 
-            return View(classification);
         }
 
         // POST: Classifications/Delete/5
@@ -211,9 +231,18 @@ namespace ASimmo.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var classification = await _context.Classifications.FindAsync(id);
-            _context.Classifications.Remove(classification);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            if (this.HttpContext.User.IsInRole("Admin") || IsOwner(classification.PromoteurId))
+            {
+                _context.Classifications.Remove(classification);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                return new ForbidResult();
+            }
+
         }
 
         private bool ClassificationExists(int id)
@@ -221,10 +250,10 @@ namespace ASimmo.Controllers
             return _context.Classifications.Any(e => e.ClassificationId == id);
         }
 
-        private bool IsOwner(int id)
+        private bool IsOwner(int pid)
         {
             var _userId = this.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var promoteur = _context.Promoteurs.Include(p => p.User).FirstOrDefault(p=> p.PromoteurId == id);
+            var promoteur = _context.Promoteurs.Include(p => p.User).FirstOrDefaultAsync(p=> p.PromoteurId == pid).GetAwaiter().GetResult();
             if(promoteur.UserId == _userId) 
             {
                 return true;

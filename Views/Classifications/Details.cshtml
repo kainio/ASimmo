@@ -1,10 +1,10 @@
 ﻿@model ASimmo.Models.Classification
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Details de la classification";
 }
 
-<h1>Details</h1>
+<h1>Détails</h1>
 
 <div>
     <h4>Classification</h4>
@@ -38,19 +38,19 @@
             @Html.DisplayNameFor(model => model.Type)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Type.TypeClassificationId)
+            @Html.DisplayFor(model => model.Type.Libelle)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Parent)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Parent.ClassificationId)
+            @Html.DisplayFor(model => model.Parent.Libelle)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Promoteur)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Promoteur.PromoteurId)
+            @Html.DisplayFor(model => model.Promoteur.Libelle)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Image)
@@ -61,6 +61,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.ClassificationId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.ClassificationId">Editer</a> |
+    <a asp-action="Index">Retourner à la liste des classifications</a>
 </div>

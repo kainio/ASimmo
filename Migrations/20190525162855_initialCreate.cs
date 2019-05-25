@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ASimmo.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class initialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -16,7 +16,9 @@ namespace ASimmo.Migrations
                     Quartier = table.Column<string>(nullable: true),
                     CodePostal = table.Column<string>(nullable: true),
                     Ville = table.Column<string>(nullable: true),
-                    AdressePostale = table.Column<string>(nullable: true)
+                    AdressePostale = table.Column<string>(nullable: true),
+                    Lon = table.Column<float>(nullable: false),
+                    Lat = table.Column<float>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -213,6 +215,7 @@ namespace ASimmo.Migrations
                 {
                     PromoteurId = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    Libelle = table.Column<string>(nullable: true),
                     Image = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: true),
                     TypeId = table.Column<int>(nullable: false)
@@ -240,7 +243,7 @@ namespace ASimmo.Migrations
                 {
                     ClassificationId = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Libelle = table.Column<string>(nullable: true),
+                    Libelle = table.Column<string>(nullable: false),
                     TypeId = table.Column<int>(nullable: false),
                     ParentId = table.Column<int>(nullable: true),
                     PromoteurId = table.Column<int>(nullable: false),
@@ -335,6 +338,66 @@ namespace ASimmo.Migrations
                         principalColumn: "TypeBienImmoId",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.InsertData(
+                table: "TypesBiensImmos",
+                columns: new[] { "TypeBienImmoId", "Libelle" },
+                values: new object[] { 1, "Maison" });
+
+            migrationBuilder.InsertData(
+                table: "TypesBiensImmos",
+                columns: new[] { "TypeBienImmoId", "Libelle" },
+                values: new object[] { 2, "Appartement" });
+
+            migrationBuilder.InsertData(
+                table: "TypesBiensImmos",
+                columns: new[] { "TypeBienImmoId", "Libelle" },
+                values: new object[] { 3, "Terrain" });
+
+            migrationBuilder.InsertData(
+                table: "TypesBiensImmos",
+                columns: new[] { "TypeBienImmoId", "Libelle" },
+                values: new object[] { 4, "Studio" });
+
+            migrationBuilder.InsertData(
+                table: "TypesBiensImmos",
+                columns: new[] { "TypeBienImmoId", "Libelle" },
+                values: new object[] { 5, "Villa" });
+
+            migrationBuilder.InsertData(
+                table: "TypesBiensImmos",
+                columns: new[] { "TypeBienImmoId", "Libelle" },
+                values: new object[] { 6, "Immeuble" });
+
+            migrationBuilder.InsertData(
+                table: "TypesBiensImmos",
+                columns: new[] { "TypeBienImmoId", "Libelle" },
+                values: new object[] { 7, "Résidence" });
+
+            migrationBuilder.InsertData(
+                table: "TypesClassifications",
+                columns: new[] { "TypeClassificationId", "Libelle" },
+                values: new object[] { 1, "Projet" });
+
+            migrationBuilder.InsertData(
+                table: "TypesClassifications",
+                columns: new[] { "TypeClassificationId", "Libelle" },
+                values: new object[] { 2, "Résidence" });
+
+            migrationBuilder.InsertData(
+                table: "TypesClassifications",
+                columns: new[] { "TypeClassificationId", "Libelle" },
+                values: new object[] { 3, "Immeuble" });
+
+            migrationBuilder.InsertData(
+                table: "TypesPromoteurs",
+                columns: new[] { "TypePromoteurId", "Libelle" },
+                values: new object[] { 1, "Professionnel" });
+
+            migrationBuilder.InsertData(
+                table: "TypesPromoteurs",
+                columns: new[] { "TypePromoteurId", "Libelle" },
+                values: new object[] { 2, "Entreprise" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

@@ -75,7 +75,8 @@ namespace ASimmo.Migrations
 
                     b.Property<string>("Image");
 
-                    b.Property<string>("Libelle");
+                    b.Property<string>("Libelle")
+                        .IsRequired();
 
                     b.Property<int?>("ParentId");
 

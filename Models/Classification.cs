@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -9,6 +10,7 @@ namespace ASimmo.Models
     {
         public int ClassificationId { get; set; }
 
+        [Required]
         public string Libelle {get; set;}
 
         public int TypeId { get; set; }

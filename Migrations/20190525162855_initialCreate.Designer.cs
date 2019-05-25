@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ASimmo.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190517153021_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20190525162855_initialCreate")]
+    partial class initialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,6 +26,10 @@ namespace ASimmo.Migrations
                     b.Property<string>("AdressePostale");
 
                     b.Property<string>("CodePostal");
+
+                    b.Property<float>("Lat");
+
+                    b.Property<float>("Lon");
 
                     b.Property<string>("Quartier");
 
@@ -73,7 +77,8 @@ namespace ASimmo.Migrations
 
                     b.Property<string>("Image");
 
-                    b.Property<string>("Libelle");
+                    b.Property<string>("Libelle")
+                        .IsRequired();
 
                     b.Property<int?>("ParentId");
 
@@ -126,6 +131,8 @@ namespace ASimmo.Migrations
 
                     b.Property<string>("Image");
 
+                    b.Property<string>("Libelle");
+
                     b.Property<int>("TypeId");
 
                     b.Property<string>("UserId");
@@ -149,6 +156,43 @@ namespace ASimmo.Migrations
                     b.HasKey("TypeBienImmoId");
 
                     b.ToTable("TypesBiensImmos");
+
+                    b.HasData(
+                        new
+                        {
+                            TypeBienImmoId = 1,
+                            Libelle = "Maison"
+                        },
+                        new
+                        {
+                            TypeBienImmoId = 2,
+                            Libelle = "Appartement"
+                        },
+                        new
+                        {
+                            TypeBienImmoId = 3,
+                            Libelle = "Terrain"
+                        },
+                        new
+                        {
+                            TypeBienImmoId = 4,
+                            Libelle = "Studio"
+                        },
+                        new
+                        {
+                            TypeBienImmoId = 5,
+                            Libelle = "Villa"
+                        },
+                        new
+                        {
+                            TypeBienImmoId = 6,
+                            Libelle = "Immeuble"
+                        },
+                        new
+                        {
+                            TypeBienImmoId = 7,
+                            Libelle = "Résidence"
+                        });
                 });
 
             modelBuilder.Entity("ASimmo.Models.TypeClassification", b =>
@@ -161,6 +205,23 @@ namespace ASimmo.Migrations
                     b.HasKey("TypeClassificationId");
 
                     b.ToTable("TypesClassifications");
+
+                    b.HasData(
+                        new
+                        {
+                            TypeClassificationId = 1,
+                            Libelle = "Projet"
+                        },
+                        new
+                        {
+                            TypeClassificationId = 2,
+                            Libelle = "Résidence"
+                        },
+                        new
+                        {
+                            TypeClassificationId = 3,
+                            Libelle = "Immeuble"
+                        });
                 });
 
             modelBuilder.Entity("ASimmo.Models.TypePromoteur", b =>
@@ -173,6 +234,18 @@ namespace ASimmo.Migrations
                     b.HasKey("TypePromoteurId");
 
                     b.ToTable("TypesPromoteurs");
+
+                    b.HasData(
+                        new
+                        {
+                            TypePromoteurId = 1,
+                            Libelle = "Professionnel"
+                        },
+                        new
+                        {
+                            TypePromoteurId = 2,
+                            Libelle = "Entreprise"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
