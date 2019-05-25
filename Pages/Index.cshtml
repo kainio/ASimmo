@@ -2,85 +2,65 @@
 @model ASimmo.Pages.AccueilModel
 
 @{
-    ViewData["Title"] = "Accueil";
+	Layout = "_AccueilLayout";
+
+	ViewData["Title"] = "Accueil";
+	var compteur = 0;
 }
 
 <div class="Hero">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="ml-5">
-                    <h1>Trouvez  l’appartement de vos rêves</h1>
-                    <p>On a rendu la recherche des biens immobiliers plus facile et plus simple, il vous suffit juste de naviguer sur notre liste bien choisi et bien détaillée des projets fare.</p>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="ml-5">
+					<h1>Trouvez  l’appartement de vos rêves</h1>
+					<p>On a rendu la recherche des biens immobiliers plus facile et plus simple, il vous suffit juste de naviguer sur notre liste bien choisi et bien détaillée des projets fare.</p>
 
-                    <a class="call-to-action" asp-controller="Classifications" asp-action="Index">Explorer les projets</a>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <img src="~/img/Image-hero.png" class="Img-Hero" width="400" />
-            </div>
-        </div>
-    </div>
+					<a class="call-to-action" asp-controller="Classifications" asp-action="Index">Explorer les projets</a>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<img src="~/img/Image-hero.png" class="Img-Hero" width="400" />
+			</div>
+		</div>
+	</div>
 
 </div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Classification[0].Libelle)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Classification[0].Recherchable)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Classification[0].PrixMax)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Classification[0].PrixMin)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Classification[0].Type)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Classification[0].Parent)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Classification[0].Promoteur)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model.Classification) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Libelle)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Recherchable)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PrixMax)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PrixMin)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Type.TypeClassificationId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Parent.ClassificationId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Promoteur.PromoteurId)
-            </td>
-            <td>
-                <a asp-controller="Classifications" asp-action="Details" asp-route-id="@item.ClassificationId">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.ClassificationId">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.ClassificationId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="projects">
+	<div class="container">
+		<div class="projects-header">
+			<h3 class="float-left text-white font-weight-bold">Les derniers projets</h3>
+			<span class="float-right call-to-action" style="margin:0"><a asp-controller="classifications" asp-action="Index">Voir tous les projets</a></span>
+			<div class="clearfix"></div>
+		</div>
+		<div class="project-body">
+			@{
+				foreach (var item in Model.Classification)
+				{
+					if (compteur % 2 == 0)
+					{
+					@:<div class="row my-5">
+					}
+
+					<div class="col-md-6 text-center text-white-50">
+						<a asp-action="Details" asp-controller="classifications" asp-route-id="@(item.ClassificationId)">
+							<img src="@Url.Content(item.Image)" width="470" alt="Image de @Html.DisplayFor(modelItem => item.Libelle)" />
+							<br />
+							@Html.DisplayFor(modelItem => item.Libelle)
+							<br />
+							@Html.DisplayFor(modelItem => item.Promoteur.Libelle)
+						</a>
+					</div>
+
+					if (compteur % 2 != 0)
+					{
+					@:</div>
+					}
+
+					compteur++;
+				}
+			}
+		</div>
+	</div>
+</div>

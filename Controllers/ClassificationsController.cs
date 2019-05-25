@@ -89,7 +89,7 @@ namespace ASimmo.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Agent")]
-        public async Task<IActionResult> Create([Bind("ClassificationId,Libelle,TypeId,ParentId,PromoteurId,Recherchable,PrixMax,PrixMin")] Classification classification)
+        public async Task<IActionResult> Create([Bind("ClassificationId,Libelle,TypeId,ParentId,PromoteurId,Recherchable,Image")] Classification classification)
         {
             
             if (ModelState.IsValid)
@@ -157,7 +157,7 @@ namespace ASimmo.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Agent")]
-        public async Task<IActionResult> Edit(int id, [Bind("ClassificationId,Libelle,TypeId,ParentId,PromoteurId,Recherchable,PrixMax,PrixMin")] Classification classification)
+        public async Task<IActionResult> Edit(int id, [Bind("ClassificationId,Libelle,TypeId,ParentId,PromoteurId,Recherchable,Image")] Classification classification)
         {
             if (id != classification.ClassificationId)
             {

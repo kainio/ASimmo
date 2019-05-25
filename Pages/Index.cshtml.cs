@@ -26,7 +26,10 @@ namespace ASimmo.Pages
             Classification = await _context.Classifications
                 .Include(c => c.Parent)
                 .Include(c => c.Promoteur)
-                .Include(c => c.Type).ToListAsync();
+                .Include(c => c.Type)
+                .Where(c=> c.Recherchable)
+                .Take(4)
+                .ToListAsync();
         }
     }
 }

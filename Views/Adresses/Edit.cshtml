@@ -37,6 +37,14 @@
 				<select asp-for="PromoteurId" class="form-control" asp-items="ViewBag.PromoteurId"></select>
 			</div>
 			<div class="form-group">
+				<label class="control-label">Latitude</label>
+				<input asp-for="Lat" class="form-control" />
+			</div>
+			<div class="form-group">
+				<label class="control-label">Longitude</label>
+				<input asp-for="Lon" class="form-control" />
+			</div>
+			<div class="form-group">
 				<input type="submit" value="Enregister" class="btn btn-primary" />
 			</div>
 		</form>

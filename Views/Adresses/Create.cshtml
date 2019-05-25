@@ -37,6 +37,14 @@
 				<a asp-controller="promoteurs" asp-action="Create">Créer un nouveau promoteur</a>
 			</div>
 			<div class="form-group">
+				<label  class="control-label">Latitude</label>
+				<input asp-for="Lat" class="form-control" />
+			</div>
+			<div class="form-group">
+				<label class="control-label">Longitude</label>
+				<input asp-for="Lon" class="form-control" />
+			</div>
+			<div class="form-group">
 				<input type="submit" value="Ajouter" class="btn btn-primary" />
 			</div>
 		</form>
