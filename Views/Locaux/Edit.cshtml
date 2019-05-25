@@ -1,12 +1,11 @@
 ﻿@model ASimmo.Models.Local
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Editer un local";
 }
 
-<h1>Edit</h1>
+<h1>Editer un local</h1>
 
-<h4>Local</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -19,24 +18,24 @@
                 <span asp-validation-for="Type" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PromoteurId" class="control-label"></label>
+                <label asp-for="Promoteur" class="control-label"></label>
                 <select asp-for="PromoteurId" class="form-control" asp-items="ViewBag.PromoteurId"></select>
                 <span asp-validation-for="PromoteurId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="AdresseId" class="control-label"></label>
+                <label asp-for="Adresse" class="control-label"></label>
                 <select asp-for="AdresseId" class="form-control" asp-items="ViewBag.AdresseId"></select>
                 <span asp-validation-for="AdresseId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Enregistrer" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+	<a asp-action="Index">Retourner à la liste des locaux</a>
 </div>
 
 @section Scripts {

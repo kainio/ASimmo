@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<ASimmo.Models.TypePromoteur>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Lite des types de promoteur";
 }
 
-<h1>Index</h1>
+<h1>Lite des types de promoteur</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Créer un nouveau type de promoteur</a>
 </p>
 <table class="table">
     <thead>
@@ -25,9 +25,9 @@
                 @Html.DisplayFor(modelItem => item.Libelle)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.TypePromoteurId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.TypePromoteurId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.TypePromoteurId">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.TypePromoteurId">Editer</a> |
+                <a asp-action="Details" asp-route-id="@item.TypePromoteurId">Consulter</a> |
+                <a asp-action="Delete" asp-route-id="@item.TypePromoteurId">Supprimer</a>
             </td>
         </tr>
 }

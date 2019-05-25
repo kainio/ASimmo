@@ -1,13 +1,12 @@
 ﻿@model ASimmo.Models.TypeClassification
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Détails du Type de classification";
 }
 
-<h1>Details</h1>
+<h1>Détails du Type de classification</h1>
 
 <div>
-    <h4>TypeClassification</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -19,6 +18,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.TypeClassificationId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.TypeClassificationId">Editer</a> |
+	<a asp-action="Index">Retourner à la liste des types des claissifications</a>
 </div>

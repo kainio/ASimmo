@@ -48,6 +48,7 @@ namespace ASimmo.Controllers
             }
 
             var adresse = await _context.Adresses
+                .Include(a => a.Promoteur)
                 .FirstOrDefaultAsync(m => m.AdresseId == id);
             if (adresse == null)
             {

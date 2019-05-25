@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<ASimmo.Models.TypeClassification>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Liste des types des classifications";
 }
 
-<h1>Index</h1>
+<h1>Liste des types des classifications</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Créer un nouveau type de classification</a>
 </p>
 <table class="table">
     <thead>
@@ -26,8 +26,8 @@
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.TypeClassificationId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.TypeClassificationId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.TypeClassificationId">Delete</a>
+                <a asp-action="Details" asp-route-id="@item.TypeClassificationId">Consulter</a> |
+                <a asp-action="Delete" asp-route-id="@item.TypeClassificationId">Supprimer</a>
             </td>
         </tr>
 }

@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ASimmo.Data;
 using ASimmo.Models;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace ASimmo.Controllers
 {
@@ -20,10 +22,21 @@ namespace ASimmo.Controllers
         }
 
         // GET: Locaux
+        [Authorize(Roles = "Admin, Agent")]
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Locaux.Include(l => l.Adresse).Include(l => l.Promoteur);
-            return View(await applicationDbContext.ToListAsync());
+            if (this.HttpContext.User.IsInRole("Admin"))
+            {
+                var applicationDbContext = _context.Locaux.Include(l => l.Adresse).Include(l => l.Promoteur);
+                return View(await applicationDbContext.ToListAsync());
+            }
+            else if (this.HttpContext.User.IsInRole("Agent"))
+            {
+                var _userId = this.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                var applicationDbContext = _context.Locaux.Include(l => l.Adresse).Include(l => l.Promoteur).Where(l => l.Promoteur.UserId == _userId);
+                return View(await applicationDbContext.ToListAsync());
+            }
+            return new ForbidResult();
         }
 
         // GET: Locaux/Details/5
@@ -47,10 +60,22 @@ namespace ASimmo.Controllers
         }
 
         // GET: Locaux/Create
+        [Authorize(Roles = "Admin, Agent")]
         public IActionResult Create()
         {
-            ViewData["AdresseId"] = new SelectList(_context.Adresses, "AdresseId", "AdresseId");
-            ViewData["PromoteurId"] = new SelectList(_context.Promoteurs, "PromoteurId", "PromoteurId");
+
+            if (this.HttpContext.User.IsInRole("Admin"))
+            {
+                ViewData["PromoteurId"] = new SelectList(_context.Promoteurs, "PromoteurId", "Libelle");
+                ViewData["AdresseId"] = new SelectList(_context.Adresses, "AdresseId", "AdressePostale");
+            }
+            else
+            {
+                var _userId = this.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                ViewData["AdresseId"] = new SelectList(_context.Adresses.Include(a => a.Promoteur).Where(a => a.Promoteur.UserId == _userId), "AdresseId", "AdressePostale");
+                ViewData["PromoteurId"] = new SelectList(_context.Promoteurs.Where(p => p.UserId == _userId), "PromoteurId", "Libelle");
+            }
+            
             return View();
         }
 
@@ -59,20 +84,38 @@ namespace ASimmo.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Agent")]
         public async Task<IActionResult> Create([Bind("LocalId,Type,PromoteurId,AdresseId")] Local local)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(local);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (this.HttpContext.User.IsInRole("Admin") || IsOwner(local.PromoteurId))
+                {
+                    _context.Add(local);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                } else
+                {
+                    return new ForbidResult();
+                }
             }
-            ViewData["AdresseId"] = new SelectList(_context.Adresses, "AdresseId", "AdresseId", local.AdresseId);
-            ViewData["PromoteurId"] = new SelectList(_context.Promoteurs, "PromoteurId", "PromoteurId", local.PromoteurId);
+
+            if (this.HttpContext.User.IsInRole("Admin"))
+            {
+                ViewData["AdresseId"] = new SelectList(_context.Adresses, "AdresseId", "AdresseId", local.AdresseId);
+                ViewData["PromoteurId"] = new SelectList(_context.Promoteurs, "PromoteurId", "PromoteurId", local.PromoteurId);
+            }
+            else
+            {
+                var _userId = this.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                ViewData["AdresseId"] = new SelectList(_context.Adresses.Include(a => a.Promoteur).Where(a => a.Promoteur.UserId == _userId), "AdresseId", "AdressePostale", local.AdresseId);
+                ViewData["PromoteurId"] = new SelectList(_context.Promoteurs.Where(p => p.UserId == _userId), "PromoteurId", "Libelle", local.PromoteurId);
+            }
             return View(local);
         }
 
         // GET: Locaux/Edit/5
+        [Authorize(Roles = "Admin, Agent")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -85,8 +128,17 @@ namespace ASimmo.Controllers
             {
                 return NotFound();
             }
-            ViewData["AdresseId"] = new SelectList(_context.Adresses, "AdresseId", "AdresseId", local.AdresseId);
-            ViewData["PromoteurId"] = new SelectList(_context.Promoteurs, "PromoteurId", "PromoteurId", local.PromoteurId);
+            if (this.HttpContext.User.IsInRole("Admin"))
+            {
+                ViewData["AdresseId"] = new SelectList(_context.Adresses, "AdresseId", "AdresseId", local.AdresseId);
+                ViewData["PromoteurId"] = new SelectList(_context.Promoteurs, "PromoteurId", "PromoteurId", local.PromoteurId);
+            }
+            else
+            {
+                var _userId = this.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                ViewData["AdresseId"] = new SelectList(_context.Adresses.Include(a => a.Promoteur).Where(a => a.Promoteur.UserId == _userId), "AdresseId", "AdressePostale", local.AdresseId);
+                ViewData["PromoteurId"] = new SelectList(_context.Promoteurs.Where(p => p.UserId == _userId), "PromoteurId", "Libelle", local.PromoteurId);
+            }
             return View(local);
         }
 
@@ -95,6 +147,7 @@ namespace ASimmo.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Agent")]
         public async Task<IActionResult> Edit(int id, [Bind("LocalId,Type,PromoteurId,AdresseId")] Local local)
         {
             if (id != local.LocalId)
@@ -106,8 +159,15 @@ namespace ASimmo.Controllers
             {
                 try
                 {
-                    _context.Update(local);
-                    await _context.SaveChangesAsync();
+                    if (this.HttpContext.User.IsInRole("Admin") || IsOwner(local.PromoteurId))
+                    {
+                        _context.Update(local);
+                        await _context.SaveChangesAsync();
+                    }
+                    else
+                    {
+                        return new ForbidResult();
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -122,12 +182,22 @@ namespace ASimmo.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AdresseId"] = new SelectList(_context.Adresses, "AdresseId", "AdresseId", local.AdresseId);
-            ViewData["PromoteurId"] = new SelectList(_context.Promoteurs, "PromoteurId", "PromoteurId", local.PromoteurId);
+            if (this.HttpContext.User.IsInRole("Admin"))
+            {
+                ViewData["AdresseId"] = new SelectList(_context.Adresses, "AdresseId", "AdresseId", local.AdresseId);
+                ViewData["PromoteurId"] = new SelectList(_context.Promoteurs, "PromoteurId", "PromoteurId", local.PromoteurId);
+            }
+            else
+            {
+                var _userId = this.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                ViewData["AdresseId"] = new SelectList(_context.Adresses.Include(a => a.Promoteur).Where(a => a.Promoteur.UserId == _userId), "AdresseId", "AdressePostale", local.AdresseId);
+                ViewData["PromoteurId"] = new SelectList(_context.Promoteurs.Where(p => p.UserId == _userId), "PromoteurId", "Libelle", local.PromoteurId);
+            }
             return View(local);
         }
 
         // GET: Locaux/Delete/5
+        [Authorize(Roles = "Admin, Agent")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -143,24 +213,50 @@ namespace ASimmo.Controllers
             {
                 return NotFound();
             }
-
-            return View(local);
+            if (this.HttpContext.User.IsInRole("Admin") || IsOwner(local.PromoteurId))
+            {
+                return View(local);
+            }
+            else
+            {
+                return new ForbidResult();
+            }
         }
 
         // POST: Locaux/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Agent")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var local = await _context.Locaux.FindAsync(id);
-            _context.Locaux.Remove(local);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            if (this.HttpContext.User.IsInRole("Admin") || IsOwner(local.PromoteurId))
+            {
+                _context.Locaux.Remove(local);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                return new ForbidResult();
+            }
         }
 
         private bool LocalExists(int id)
         {
             return _context.Locaux.Any(e => e.LocalId == id);
+        }
+
+        private bool IsOwner(int pid)
+        {
+            var _userId = this.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var promoteur = _context.Promoteurs.Include(p => p.User).FirstOrDefaultAsync(p => p.PromoteurId == pid).GetAwaiter().GetResult();
+            if (promoteur.UserId == _userId)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }
