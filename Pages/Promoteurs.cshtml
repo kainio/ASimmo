@@ -1,0 +1,42 @@
+﻿@page
+@model ASimmo.Pages.PromoteursModel
+
+@{
+    ViewData["Title"] = "La liste des promoteurs";
+}
+
+<h1>La liste des promoteurs</h1>
+
+
+<table class="table">
+    <thead>
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => model.Promoteur[0].Image)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Promoteur[0].Libelle)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Promoteur[0].Type)
+			</th>
+			<th></th>
+		</tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Promoteur) {
+		<tr>
+			<td>
+				<img src="@Url.Content(item.Image)" alt="Image" />
+			</td>
+
+			<td>
+				@Html.DisplayFor(modelItem => item.Libelle)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Type.Libelle)
+			</td>
+		</tr>
+}
+    </tbody>
+</table>
