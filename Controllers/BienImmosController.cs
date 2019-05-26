@@ -91,9 +91,17 @@ namespace ASimmo.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(bienImmo);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (this.HttpContext.User.IsInRole("Admin") || IsOwner(bienImmo.ClassificationId))
+                {
+                    _context.Add(bienImmo);
+                    UpdatePrixMinPrixMax(bienImmo);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    return new ForbidResult();
+                }
             }
             if (this.HttpContext.User.IsInRole("Admin"))
             {
@@ -163,6 +171,7 @@ namespace ASimmo.Controllers
                     if (this.HttpContext.User.IsInRole("Admin") || IsOwner(bienImmo.ClassificationId))
                     {
                         _context.Update(bienImmo);
+                        UpdatePrixMinPrixMax(bienImmo);
                         await _context.SaveChangesAsync();
                     }
                     else
@@ -262,6 +271,20 @@ namespace ASimmo.Controllers
                 return true;
             }
             return false;
+        }
+        private void UpdatePrixMinPrixMax(BienImmo bienImmo)
+        {
+            var _c = _context.Classifications.FirstOrDefault(c => c.ClassificationId == bienImmo.ClassificationId);
+            if (_c.PrixMax < bienImmo.Prix)
+            {
+                _c.PrixMax = bienImmo.Prix;
+            }
+            if (_c.PrixMin == 0 || _c.PrixMin > bienImmo.Prix)
+            {
+                _c.PrixMin = bienImmo.Prix;
+            }
+            _context.Update(_c);
+
         }
     }
 }

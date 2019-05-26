@@ -45,7 +45,7 @@
 
 					<div class="col-md-6 text-center text-white-50">
 						<a asp-action="Details" asp-controller="classifications" asp-route-id="@(item.ClassificationId)">
-							<img src="~/@Url.Content(item.Image)" width="470" alt="Image de @Model.Libelle" />
+							<img src="~/@Url.Content(item.Image)" width="470" alt="Image de @item.Libelle" />
 							<br />
 							@Html.DisplayFor(modelItem => item.Libelle)
 							<br />
