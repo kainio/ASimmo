@@ -1,0 +1,125 @@
+﻿@page
+@model ASimmo.Pages.ProjetsModel
+@using Newtonsoft.Json
+
+@{
+	ViewData["Title"] = "Projets";
+}
+
+
+<div id='map' style='width: 100%; height: 500px;'></div>
+<script>
+	mapboxgl.accessToken = 'pk.eyJ1Ijoia2FpbmlvIiwiYSI6ImNqdW9vcmwxbjB6YzI0ZHBnbGszbjVhOTUifQ.b0CDvlUv2dTvq-IFYMtL0g';
+	var map = new mapboxgl.Map({
+		container: 'map',
+		center: [-6.7868796, 34.0826975],
+		zoom: 10,
+		style: 'mapbox://styles/mapbox/streets-v11'
+	});
+	var Markers = [];
+	function addMarker(latitude, longitude, title ="", description= "", map="") 
+	{
+			return Markers.push({
+				"type": "Feature",
+				"geometry": {
+					"type": "Point",
+					"coordinates": [latitude, longitude]
+				}
+
+			});
+	}
+	$(document).ready(function () {
+
+		$('[data-marker]').each(function () {
+			var markerData = $(this).data('marker');
+			var el = document.createElement('div');
+			el.className = 'marker';
+			console.log(markerData)
+			var markerHeight = 50, markerRadius = 10, linearOffset = 25;
+			var popupOffsets = {
+				'top': [0, 0],
+				'top-left': [0, 0],
+				'top-right': [0, 0],
+				'bottom': [0, -markerHeight],
+				'bottom-left': [linearOffset, (markerHeight - markerRadius + linearOffset) * -1],
+				'bottom-right': [-linearOffset, (markerHeight - markerRadius + linearOffset) * -1],
+				'left': [markerRadius, (markerHeight - markerRadius) * -1],
+				'right': [-markerRadius, (markerHeight - markerRadius) * -1]
+			};
+
+			var popup = new mapboxgl.Popup({ offset: popupOffsets, className: 'my-class' })
+				.setHTML("Promoteur:<b>" + markerData.Adresse.Promoteur.Libelle + "</b><br />prix:<b>" + markerData.Prix +"DH</b>")
+				.setMaxWidth("300px")
+			new mapboxgl.Marker()
+				.setLngLat([parseFloat(markerData.Adresse.Lon), parseFloat(markerData.Adresse.Lat)])
+				.setPopup(popup)
+				.addTo(map);
+
+
+		});
+		
+	});
+	
+
+</script>
+<h1>Projets</h1>
+<table class="table my-4">
+	<thead>
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => model.Classification[0].Libelle)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Classification[0].PrixMax)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Classification[0].PrixMin)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Classification[0].Image)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Classification[0].Type)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Classification[0].Parent)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Classification[0].Promoteur)
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model.Classification)
+		{
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.Libelle)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.PrixMax)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.PrixMin)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Image)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Type.TypeClassificationId)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Parent.Libelle)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Promoteur.PromoteurId)
+				</td>
+			</tr>
+		}
+
+	</tbody>
+</table>
+@foreach (var item in Model.BiensImmos)
+{
+	<div data-marker="@JsonConvert.SerializeObject(item)"></div>
+}

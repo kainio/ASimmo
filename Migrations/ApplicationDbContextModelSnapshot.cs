@@ -25,9 +25,9 @@ namespace ASimmo.Migrations
 
                     b.Property<string>("CodePostal");
 
-                    b.Property<float>("Lat");
+                    b.Property<string>("Lat");
 
-                    b.Property<float>("Lon");
+                    b.Property<string>("Lon");
 
                     b.Property<int>("PromoteurId");
 

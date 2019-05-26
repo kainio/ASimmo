@@ -229,8 +229,8 @@ namespace ASimmo.Migrations
                     CodePostal = table.Column<string>(nullable: true),
                     Ville = table.Column<string>(nullable: true),
                     AdressePostale = table.Column<string>(nullable: true),
-                    Lon = table.Column<float>(nullable: false),
-                    Lat = table.Column<float>(nullable: false),
+                    Lon = table.Column<string>(nullable: true),
+                    Lat = table.Column<string>(nullable: true),
                     PromoteurId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -257,7 +257,9 @@ namespace ASimmo.Migrations
                     Recherchable = table.Column<bool>(nullable: false),
                     PrixMax = table.Column<decimal>(nullable: false),
                     PrixMin = table.Column<decimal>(nullable: false),
-                    Image = table.Column<string>(nullable: true)
+                    Image = table.Column<string>(nullable: true),
+                    UpdatedAt = table.Column<DateTime>(nullable: false),
+                    CreatedAt = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {

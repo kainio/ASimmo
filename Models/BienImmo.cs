@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
+using System.Runtime.Serialization;
 
 namespace ASimmo.Models
 {
@@ -22,6 +24,8 @@ namespace ASimmo.Models
         public string Image { get; set; }
         public TypeBienImmo Type { get; set; }
 
+        [JsonIgnore]
+        [IgnoreDataMember]
         public Classification Classification { get; set; }
 
         public Adresse Adresse { get; set; }

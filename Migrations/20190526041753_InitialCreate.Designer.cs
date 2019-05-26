@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ASimmo.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190525235653_Add_UpdatedAt_CreatedAd_To_Classifications")]
-    partial class Add_UpdatedAt_CreatedAd_To_Classifications
+    [Migration("20190526041753_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,9 +27,9 @@ namespace ASimmo.Migrations
 
                     b.Property<string>("CodePostal");
 
-                    b.Property<float>("Lat");
+                    b.Property<string>("Lat");
 
-                    b.Property<float>("Lon");
+                    b.Property<string>("Lon");
 
                     b.Property<int>("PromoteurId");
 
