@@ -9,26 +9,32 @@
 <div>
     <h4>Promoteur</h4>
     <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Libelle)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Libelle)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.User)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.User.UserName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Type)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Type.Libelle)
-        </dd>
-    </dl>
+	<dl class="row">
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Image)
+		</dt>
+		<dd class="col-sm-10">
+			<img src="@Url.Content(@Model.Image)" alt="Image" />
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Libelle)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Libelle)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.User)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.User.UserName)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Type)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Type.Libelle)
+		</dd>
+	</dl>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.PromoteurId">Editer</a> |

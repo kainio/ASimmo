@@ -9,27 +9,27 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Prix" class="control-label"></label>
-                <input asp-for="Prix" class="form-control" />
-                <span asp-validation-for="Prix" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Surface" class="control-label"></label>
-                <input asp-for="Surface" class="form-control" />
-                <span asp-validation-for="Surface" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NombreChambre" class="control-label"></label>
-                <input asp-for="NombreChambre" class="form-control" />
-                <span asp-validation-for="NombreChambre" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Type" class="control-label"></label>
-                <select asp-for="TypeId" class ="form-control" asp-items="ViewBag.TypeId"></select>
-            </div>
+		<form asp-action="Create">
+			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+			<div class="form-group">
+				<label asp-for="Prix" class="control-label"></label>
+				<input asp-for="Prix" class="form-control" />
+				<span asp-validation-for="Prix" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Surface" class="control-label"></label>
+				<input asp-for="Surface" class="form-control" />
+				<span asp-validation-for="Surface" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="NombreChambre" class="control-label"></label>
+				<input asp-for="NombreChambre" class="form-control" />
+				<span asp-validation-for="NombreChambre" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Type" class="control-label"></label>
+				<select asp-for="TypeId" class="form-control" asp-items="ViewBag.TypeId"></select>
+			</div>
 			<div class="form-group">
 				<label asp-for="Classification" class="control-label"></label>
 				<select asp-for="ClassificationId" class="form-control" asp-items="ViewBag.ClassificationId"></select>
@@ -40,10 +40,14 @@
 				<select asp-for="AdresseId" class="form-control" asp-items="ViewBag.AdresseId"></select>
 				<a asp-controller="adresses" asp-action="Create">Créer une nouvelle adresse</a>
 			</div>
-            <div class="form-group">
-                <input type="submit" value="Ajouter" class="btn btn-primary" />
-            </div>
-        </form>
+			<div class="form-group">
+				<label asp-for="Image" class="control-label"></label>
+				<input asp-for="Image" class="form-control" />
+			</div>
+			<div class="form-group">
+				<input type="submit" value="Ajouter" class="btn btn-primary" />
+			</div>
+		</form>
     </div>
 </div>
 

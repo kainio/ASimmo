@@ -87,7 +87,7 @@ namespace ASimmo.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Agent")]
-        public async Task<IActionResult> Create([Bind("BienImmoId,Prix,Surface,NombreChambre,TypeId,ClassificationId,AdresseId")] BienImmo bienImmo)
+        public async Task<IActionResult> Create([Bind("BienImmoId,Prix,Surface,NombreChambre,TypeId,ClassificationId,AdresseId,Image")] BienImmo bienImmo)
         {
             if (ModelState.IsValid)
             {
@@ -149,7 +149,7 @@ namespace ASimmo.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin, Agent")]
-        public async Task<IActionResult> Edit(int id, [Bind("BienImmoId,Prix,Surface,NombreChambre,TypeId,ClassificationId,AdresseId")] BienImmo bienImmo)
+        public async Task<IActionResult> Edit(int id, [Bind("BienImmoId,Prix,Surface,NombreChambre,TypeId,ClassificationId,AdresseId,Image")] BienImmo bienImmo)
         {
             if (id != bienImmo.BienImmoId)
             {
