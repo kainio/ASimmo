@@ -15,9 +15,12 @@
             <th>
                 @Html.DisplayNameFor(model => model.Libelle)
             </th>
+            @if(User.IsInRole("Admin"))
+            { 
             <th>
                 @Html.DisplayNameFor(model => model.User)
             </th>
+            }
             <th>
                 @Html.DisplayNameFor(model => model.Type)
             </th>
@@ -30,9 +33,12 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Libelle)
             </td>
+            @if(User.IsInRole("Admin"))
+            {
             <td>
                 @Html.DisplayFor(modelItem => item.User.UserName)
             </td>
+            }
             <td>
                 @Html.DisplayFor(modelItem => item.Type.Libelle)
             </td>

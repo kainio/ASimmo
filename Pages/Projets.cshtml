@@ -3,7 +3,8 @@
 @using Newtonsoft.Json
 
 @{
-	ViewData["Title"] = "Projets";
+    ViewData["Title"] = "Projets";
+    Layout = "_AccueilLayout";
 }
 
 
@@ -62,64 +63,70 @@
 	
 
 </script>
-<h1>Projets</h1>
-<table class="table my-4">
-	<thead>
-		<tr>
-			<th>
-				@Html.DisplayNameFor(model => model.Classification[0].Libelle)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.Classification[0].PrixMax)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.Classification[0].PrixMin)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.Classification[0].Image)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.Classification[0].Type)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.Classification[0].Parent)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.Classification[0].Promoteur)
-			</th>
-		</tr>
-	</thead>
-	<tbody>
-		@foreach (var item in Model.Classification)
-		{
-			<tr>
-				<td>
-					@Html.DisplayFor(modelItem => item.Libelle)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.PrixMax)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.PrixMin)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.Image)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.Type.TypeClassificationId)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.Parent.Libelle)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.Promoteur.PromoteurId)
-				</td>
-			</tr>
-		}
+<div class="container">
+    <h1 class="my-3">Projets</h1>
+    <table class="table my-4">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Classification[0].Image)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Classification[0].Libelle)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Classification[0].PrixMax)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Classification[0].PrixMin)
+                </th>
 
-	</tbody>
-</table>
-@foreach (var item in Model.BiensImmos)
-{
-	<div data-marker="@JsonConvert.SerializeObject(item)"></div>
-}
+                <th>
+                    @Html.DisplayNameFor(model => model.Classification[0].Type)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Classification[0].Parent)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Classification[0].Promoteur)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Classification)
+            {
+            <tr>
+                <td>
+                    <img src="~/@Url.Content(@item.Image)" width="200" alt="Image de @item.Libelle" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Libelle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PrixMax)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PrixMin)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type.Libelle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Parent.Libelle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Promoteur.Libelle)
+                </td>
+                <td><a asp-controller="classifications" asp-action="Details" asp-route-id="@item.ClassificationId">Consulter</a></td>
+            </tr>
+            }
+
+        </tbody>
+    </table>
+    @foreach (var item in Model.BiensImmos)
+    {
+        <div data-marker="@JsonConvert.SerializeObject(item)"></div>
+    }
+</div>

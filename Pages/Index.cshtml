@@ -16,7 +16,7 @@
 					<h1>Trouvez  l’appartement de vos rêves</h1>
 					<p>On a rendu la recherche des biens immobiliers plus facile et plus simple, il vous suffit juste de naviguer sur notre liste bien choisi et bien détaillée des projets fare.</p>
 
-					<a class="call-to-action" asp-controller="Classifications" asp-action="Index">Explorer les projets</a>
+					<a class="call-to-action" asp-page="Projets">Explorer les projets</a>
 				</div>
 			</div>
 			<div class="col-md-6">
@@ -31,7 +31,7 @@
 	<div class="container">
 		<div class="projects-header">
 			<h3 class="float-left text-white font-weight-bold">Les derniers projets</h3>
-			<span class="float-right call-to-action" style="margin:0"><a asp-controller="classifications" asp-action="Index">Voir tous les projets</a></span>
+			<span class="float-right call-to-action" style="margin:0"><a asp-page="Projets">Voir tous les projets</a></span>
 			<div class="clearfix"></div>
 		</div>
 		<div class="project-body">
@@ -45,7 +45,7 @@
 
 					<div class="col-md-6 text-center text-white-50">
 						<a asp-action="Details" asp-controller="classifications" asp-route-id="@(item.ClassificationId)">
-							<img src="@Url.Content(item.Image)" width="470" alt="Image de @Html.DisplayFor(modelItem => item.Libelle)" />
+							<img src="~/@Url.Content(item.Image)" width="470" alt="Image de @Model.Libelle" />
 							<br />
 							@Html.DisplayFor(modelItem => item.Libelle)
 							<br />
