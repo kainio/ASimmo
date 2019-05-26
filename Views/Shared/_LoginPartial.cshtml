@@ -3,25 +3,59 @@
 @inject UserManager<IdentityUser> UserManager
 
 <ul class="navbar-nav">
-    @if (SignInManager.IsSignedIn(User))
-    {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
-        </li>
-        <li class="nav-item">
-            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-            </form>
-        </li>
-    }
-    else
-    {
+		@if (User.IsInRole("Admin"))
+	{
+		<li class="nav-item dropdown">
+			<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				Gerer
+			</a>
+			<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+				<a class="dropdown-item" asp-controller="BienImmos" asp-action="Index">Bien immobiliers</a>
+				<a class="dropdown-item" asp-controller="Promoteurs" asp-action="Index">Promoteurs</a>
+				<a class="dropdown-item" asp-controller="Classifications" asp-action="Index">Classifications</a>
+				<a class="dropdown-item" asp-controller="Adresses" asp-action="Index">Adresses</a>
+				<a class="dropdown-item" asp-controller="Locaux" asp-action="Index">Locaux des promoteurs</a>
+				<a class="dropdown-item" asp-controller="TypePromoteurs" asp-action="Index">Types de promoteur</a>
+				<a class="dropdown-item" asp-controller="TypeClassifications" asp-action="Index">Types de classifications</a>
+				<a class="dropdown-item" asp-controller="TypeBienImmos" asp-action="Index">Types de Bien Immobilier</a>
+			</div>
+		</li>
+	}
+	else if (User.IsInRole("Agent"))
+	{
+		<li class="nav-item dropdown">
+			<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				Gerer
+			</a>
+			<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+				<a class="dropdown-item" asp-controller="BienImmos" asp-action="Index">Bien immobiliers</a>
+				<a class="dropdown-item" asp-controller="Promoteurs" asp-action="Index">Promoteurs</a>
+				<a class="dropdown-item" asp-controller="Classifications" asp-action="Index">Classifications</a>
+				<a class="dropdown-item" asp-controller="Adresses" asp-action="Index">Adresses</a>
+				<a class="dropdown-item" asp-controller="Locaux" asp-action="Index">Locaux des promoteurs</a>
+			</div>
+		</li>
+	}
 
-        <li class="nav-item">
-            <a class="nav-link" asp-area="Identity" asp-page="/Account/Login">Se connecter</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link-inscription" asp-area="Identity" asp-page="/Account/Register">S'inscrire</a>
-        </li>
-    }
+	@if (SignInManager.IsSignedIn(User))
+	{
+		<li class="nav-item">
+			<a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Bonjour, @User.Identity.Name</a>
+		</li>
+		<li class="nav-item">
+			<form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+				<button type="submit" class="nav-link btn btn-link text-dark">Se deconnecter</button>
+			</form>
+		</li>
+	}
+	else
+	{
+
+		<li class="nav-item">
+			<a class="nav-link" asp-area="Identity" asp-page="/Account/Login">Se connecter</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link-inscription" asp-area="Identity" asp-page="/Account/Register">S'inscrire</a>
+		</li>
+	}
 </ul>

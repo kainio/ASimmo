@@ -28,6 +28,7 @@ namespace ASimmo.Pages
                 .Include(c => c.Promoteur)
                 .Include(c => c.Type)
                 .Where(c=> c.Recherchable)
+                .OrderByDescending(c => c.CreatedAt)
                 .Take(4)
                 .ToListAsync();
         }

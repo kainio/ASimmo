@@ -25,7 +25,10 @@ namespace ASimmo.Models
         public Decimal PrixMin { get; set; }
 
         public string Image { get; set; }
-       
+
+        public DateTime UpdatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
+
         public virtual TypeClassification Type { get; set; }
 
         public virtual Classification Parent { get; set; }

@@ -96,6 +96,8 @@ namespace ASimmo.Controllers
             {
                 if (this.HttpContext.User.IsInRole("Admin") || IsOwner(classification.PromoteurId))
                 {
+                    classification.CreatedAt = DateTime.Now;
+                    classification.UpdatedAt = classification.CreatedAt;
                     _context.Add(classification);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
@@ -170,6 +172,7 @@ namespace ASimmo.Controllers
                 {
                     if (this.HttpContext.User.IsInRole("Admin") || IsOwner(classification.PromoteurId))
                     {
+                        classification.UpdatedAt = DateTime.Now;
                         _context.Update(classification);
                         await _context.SaveChangesAsync();
                     } else
