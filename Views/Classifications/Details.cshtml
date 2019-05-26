@@ -1,7 +1,18 @@
 ﻿@model ASimmo.Models.Classification
+@using System.Security.Claims;
 
 @{
     ViewData["Title"] = "Details de la classification";
+    string _userId;
+    if (User.Identity.IsAuthenticated)
+    {
+        _userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+    }
+    else
+    {
+        _userId = "";
+    }
+
 }
 
 <h1>Détails</h1>
@@ -16,12 +27,16 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Libelle)
         </dd>
+        @if(User.IsInRole("Admin") || Model.IsOwner(_userId))
+        { 
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Recherchable)
         </dt>
+
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Recherchable)
         </dd>
+        }
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.PrixMax)
         </dt>

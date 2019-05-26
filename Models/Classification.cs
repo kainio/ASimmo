@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace ASimmo.Models
@@ -34,6 +36,10 @@ namespace ASimmo.Models
         public virtual Classification Parent { get; set; }
 
         public virtual Promoteur Promoteur { get; set; }
-        
+        public bool IsOwner(string _userId)
+        {
+
+            return Promoteur.UserId == _userId;
+        }
     }
 }
