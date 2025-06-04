@@ -62,4 +62,4 @@ Cela exécutera tous les tests fonctionnels et de fumée dans `ASimmo.Tests`. Ce
 - Si vous ajoutez de nouvelles routes protégées, adaptez les tests pour utiliser le helper d'authentification.
 
 ## Licence
-MIT (ou précisez votre licence ici)
+MIT
