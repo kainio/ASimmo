@@ -62,4 +62,4 @@ This will execute all functional and smoke tests in `ASimmo.Tests`. Some tests a
 - If you add new protected endpoints, update the tests to use the authentication helper as needed.
 
 ## License
-MIT (or specify your license here)
+MIT
